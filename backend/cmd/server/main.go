@@ -6,11 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/tahhh2234/tomomo/internal/config"
-	"github.com/tahhh2234/tomomo/internal/models"
-
-	// "github.com/tahhh2234/tomomo/backend/internal/models"
-	// "github.com/tahhh2234/tomomo/tree/main/backend/internal/config"
+	"github.com/tahhh2234/tomomo/backend/internal/config"
+	"github.com/tahhh2234/tomomo/backend/internal/models"
 	"gorm.io/gorm"
 
 	"net/http"
@@ -26,7 +23,9 @@ func main() {
 
 	// Connect DB
 	db = config.ConnectDB()
-	db.AutoMigrate(&models.Task{})
+	if err := db.AutoMigrate(&models.Task{}); err != nil {
+		log.Fatal("AutoMigrate failed:", err)
+	}
 
 	r := gin.Default()
 

@@ -1,4 +1,4 @@
-module github.com/tahhh2234/tomomo
+module github.com/tahhh2234/tomomo/backend
 
 go 1.24.5
 
