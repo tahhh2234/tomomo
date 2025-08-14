@@ -31,9 +31,10 @@ func main() {
 
 	// Routes
 	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "pong"})
+		c.JSON(200, gin.H{"message": "pingpong"})
 	})
 	r.GET("/tasks", GetTasks)
+	r.GET("/tasks/:id", GetTaskByID)
 	r.POST("/tasks", CreateTask)
 	r.PUT("/tasks/:id", UpdateTask)
 	r.DELETE("/tasks/:id", DeleteTask)
@@ -53,13 +54,35 @@ func GetTasks(c *gin.Context) {
 	c.JSON(http.StatusOK, tasks)
 }
 
-// POST /tasks
-func CreateTask(c *gin.Context) {
+// GET /tasks/:id
+func GetTaskByID(c *gin.Context) {
+	id := c.Param("id")
 	var task models.Task
-	if err := c.ShouldBindJSON(&task); err != nil {
+	if err := db.First(&task, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+	c.JSON(http.StatusOK, task)
+}
+
+// POST /tasks
+type CreateTaskInput struct {
+	Title    string `json:"title" binding:"required"`
+	Priority int    `json:"priority"`
+}
+
+func CreateTask(c *gin.Context) {
+	var input CreateTaskInput
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	task := models.Task{
+		Title:    input.Title,
+		Priority: input.Priority,
+	}
+
 	db.Create(&task)
 	c.JSON(http.StatusCreated, task)
 }
