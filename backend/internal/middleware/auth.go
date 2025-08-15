@@ -17,13 +17,12 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 		token := strings.TrimPrefix(h, "Bearer ")
-		claims, err := auth.ParseToken(token)
+		claims, err := auth.ParseAccessToken(token)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired access token"})
 			c.Abort()
 			return
 		}
-		// inject user id into context
 		c.Set("userID", claims.UserID)
 		c.Next()
 	}

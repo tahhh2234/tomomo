@@ -17,9 +17,17 @@ import (
 
 var db *gorm.DB
 
+// --- Input Structs ---
 type CreateTaskInput struct {
 	Title    string `json:"title" binding:"required"`
 	Priority int    `json:"priority"`
+}
+
+type UpdateTaskInput struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+	Status      *string `json:"status"`
+	Priority    *int    `json:"priority"`
 }
 
 func main() {
@@ -30,16 +38,17 @@ func main() {
 
 	// Connect DB
 	db = config.ConnectDB()
-	if err := db.AutoMigrate(&models.User{}, &models.Task{}); err != nil {
+	if err := db.AutoMigrate(&models.User{}, &models.Task{}, &models.RefreshToken{}); err != nil {
 		log.Fatal("AutoMigrate failed:", err)
 	}
 
 	r := gin.Default()
 
 	// public
-	r.GET("/ping", func(c *gin.Context) { c.JSON(200, gin.H{"message": "pingpong"}) })
 	r.POST("/auth/register", handlers.Register(db))
 	r.POST("/auth/login", handlers.Login(db))
+	r.POST("/auth/refresh", handlers.Refresh(db))
+	r.POST("/auth/logout", handlers.Logout(db))
 
 	// protected
 	api := r.Group("/tasks", middleware.AuthRequired())
@@ -62,7 +71,6 @@ func main() {
 // GET /tasks
 func GetTasks(c *gin.Context) {
 	var tasks []models.Task
-	// ดึงเฉพาะของ user คนนั้น
 	uid := c.GetUint("userID")
 	db.Where("user_id = ?", uid).Find(&tasks)
 	c.JSON(http.StatusOK, tasks)
@@ -110,12 +118,17 @@ func UpdateTask(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}
-	var input models.Task
+
+	var input UpdateTaskInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	db.Model(&task).Updates(input)
+
+	if err := db.Model(&task).Updates(input).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update task"})
+		return
+	}
 	c.JSON(http.StatusOK, task)
 }
 
@@ -129,6 +142,9 @@ func DeleteTask(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}
-	db.Delete(&task)
+	if err := db.Delete(&task).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete task"})
+		return
+	}
 	c.Status(http.StatusNoContent)
 }
