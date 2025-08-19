@@ -1,0 +1,30 @@
+@use "./variables.scss" as *;
+@use "./animations.scss" as *;
+
+.homepage-container {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .homepage-title {
+    text-align: center;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .homepage-subtitle {
+    display: flex;
+  }
+  .first-sub-title {
+    color: $color-01;
+  }
+  .second-sub-title {
+    color: $color-02;
+  }
+  .third-sub-title {
+    color: $color-03;
+  }
+}
