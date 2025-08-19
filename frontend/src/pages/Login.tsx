@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import '../styles/index.scss'
 import { useState } from 'react'
 import { loginUser, setToken } from '../api/api'

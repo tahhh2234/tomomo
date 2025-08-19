@@ -8,46 +8,69 @@
   padding: 20px;
   font-size: $text-size;
   transition: all 0.3s ease-in-out;
+  position: sticky;
+  top: 0;
 }
 
 .header {
+  height: 100%;
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 
-.title {
-  display: inline-block;
-  font-size: 24px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #14b8ff 0%, #9ce1ff 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: transform 0.3s ease;
-  animation: slideInFromLeft 0.5s ease forwards;
+.header-title {
+  transition: all 0.3s ease;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #14b8ff 0%, #9ce1ff 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slideInFromLeft 0.5s ease forwards;
+  }
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .header-button {
   display: flex;
-  gap: 24px;
+  gap: 12px;
   animation: slideInFromRight 0.5s ease forwards;
 
+  //shared button styles
+  %button-shared {
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 10px;
+    border-radius: 16px;
+
+    &:hover {
+      transform: scale(1.12);
+    }
+  }
+
   .reg-button {
-    transition: all 0.1s ease-in-out;
+    @extend %button-shared;
+    border: solid 2px $color-02;
 
     &:hover {
       color: $color-02;
-      transform: scale(1.03);
     }
   }
 
   .login-button {
-    transition: all 0.1s ease-in-out;
+    @extend %button-shared;
+    border: solid 2px $color-03;
 
     &:hover {
       color: $color-03;
-      transform: scale(1.03);
     }
   }
 }

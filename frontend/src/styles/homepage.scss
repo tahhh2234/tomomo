@@ -14,17 +14,23 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease-in-out;
+  }
+  .homepage-main-title {
+    animation: slideUp 0.5s ease forwards;
   }
   .homepage-subtitle {
     display: flex;
-  }
-  .first-sub-title {
-    color: $color-01;
-  }
-  .second-sub-title {
-    color: $color-02;
-  }
-  .third-sub-title {
-    color: $color-03;
+    animation: slideUp 0.7s ease forwards;
+
+    .first-sub-title {
+      color: $color-01;
+    }
+    .second-sub-title {
+      color: $color-02;
+    }
+    .third-sub-title {
+      color: $color-03;
+    }
   }
 }
