@@ -1,36 +1,41 @@
 @use "./variables.scss" as *;
 @use "./animations.scss" as *;
 
-.homepage-container {
-  height: 80vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.homepage {
+  &__container {
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-  .homepage-title {
+  &__title {
     text-align: center;
     height: 100%;
     justify-content: center;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease-in-out;
-  }
-  .homepage-main-title {
-    animation: slideUp 0.5s ease forwards;
-  }
-  .homepage-subtitle {
-    display: flex;
-    animation: slideUp 0.7s ease forwards;
 
-    .first-sub-title {
-      color: $color-01;
+    &--main {
+      animation: slideUp 0.5s ease forwards;
     }
-    .second-sub-title {
-      color: $color-02;
-    }
-    .third-sub-title {
-      color: $color-03;
+    &--sub {
+      display: flex;
+      animation: slideUp 0.7s ease forwards;
+      
+      .title--sub {
+        &--first {
+          color: $color-01;
+        }
+        &--second {
+          color: $color-02;
+        }
+        &--third {
+          color: $color-03;
+        }
+      }
     }
   }
 }
