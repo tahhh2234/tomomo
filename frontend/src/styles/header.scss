@@ -53,6 +53,9 @@
       &:hover {
         transform: scale(1.12);
       }
+      &:active {
+        transform: scale(0.95);
+      }
     }
 
     &--reg {
@@ -65,11 +68,8 @@
 
     &--login {
       @extend %button-shared;
-      border: solid 2px $color-03;
-
-      &:hover {
-        color: $color-03;
-      }
+      background-color: $color-03;
+      color: $color-white;
     }
   }
 }

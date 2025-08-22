@@ -13,7 +13,7 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await loginUser({ email, password});
+            const res = await loginUser({ email, password });
             const token = res.data.access_token;
             setToken(token);
             localStorage.setItem("token", token);
@@ -22,16 +22,16 @@ export default function Login() {
             setError(err.response?.data?.error || "Login failed");
         }
     };
- 
+
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="email" placeholder="Email" value={email} onChange={ e => setEmail(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={ e => setPassword(e.target.value)} />
-                <button type="submit">Login</button>
+        <div className="login__container">
+            <h2 className="login__title">Login</h2>
+            <form onSubmit={handleSubmit} className="login__form">
+                <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+                <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+                <button type="submit" className="login__form--btn">Login</button>
             </form>
-            {error && <p style={{ color: "red"}}>{error}</p>}
+            {error && <p className="login__error">{error}</p>}
         </div>
     )
 }

@@ -1,5 +1,4 @@
 import '../styles/index.scss'
-import '../styles/homepage.scss'
 
 export default function HomePage() {
 

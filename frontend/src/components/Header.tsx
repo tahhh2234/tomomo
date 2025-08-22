@@ -1,5 +1,5 @@
 import { LuLogIn } from "react-icons/lu";
-import "../styles/header.scss";
+import "../styles/index.scss";
 
 export default function Header() {
     return (

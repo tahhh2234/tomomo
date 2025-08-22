@@ -1,0 +1,67 @@
+@use "./variables.scss" as *;
+@use "./animations.scss" as *;
+
+.login {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: slideUp 0.5s ease forwards;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+    animation: slideUp 0.5s ease forwards;
+
+    input {
+      padding: 4px 12px;
+      border-radius: 16px;
+      border: 1px solid $color-04;
+      font-size: $text-size;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        border-color: $color-03; // ใช้สีอีกเฉดเพื่อแยกกับ register
+        outline: none;
+      }
+    }
+
+    &--btn {
+      background-color: $color-03; // ใช้สี contrast กับ register
+      color: white;
+      padding: 6px 16px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      font-size: $text-size;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  &__error {
+    margin-top: 10px;
+    color: red;
+    font-size: 0.9rem;
+  }
+}
