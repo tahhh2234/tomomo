@@ -60,6 +60,11 @@ func main() {
 		api.DELETE("/:id", DeleteTask)
 	}
 
+	authGroup := r.Group("/auth", middleware.AuthRequired())
+	{
+		authGroup.GET("/me", handlers.Me(db))
+	}
+
 	port := os.Getenv("APP_PORT")
 	if port == "" {
 		port = "8080"

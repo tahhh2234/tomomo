@@ -185,3 +185,21 @@ func Logout(db *gorm.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"success": true})
 	}
 }
+
+// GET /auth/me
+func Me(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		uid := c.GetUint("userID") // เอามาจาก middleware.JWT
+		var user models.User
+		if err := db.First(&user, uid).Error; err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"id":    user.ID,
+			"email": user.Email,
+			"name":  user.Name,
+		})
+	}
+}
