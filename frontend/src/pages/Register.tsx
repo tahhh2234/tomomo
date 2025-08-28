@@ -14,7 +14,7 @@ export default function Register() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await registerUser({ email, password, name});
+            const res = await registerUser({ email, password, name });
             const token = res.data.access_token;
             setToken(token);
             localStorage.setItem("token", token);
@@ -28,12 +28,13 @@ export default function Register() {
         <div className="register__container">
             <h2 className="register__title">Register</h2>
             <form onSubmit={handleSubmit} className="register__form">
-                <input type="text" placeholder="Name" value={name} onChange={ e => setName(e.target.value)} />
-                <input type="email" placeholder="Email" value={email} onChange={ e => setEmail(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={ e => setPassword(e.target.value)} />
+                <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+                <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+                <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                 <button type="submit" className="register__form--btn">Register</button>
             </form>
-            {error && <p className="login__error">{error}</p>}
+            {error && <p className="register__error">{error}</p>}
+            <a href="/login" className="register__already">Already have an account?</a>
         </div>
     );
 }

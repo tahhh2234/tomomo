@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { getTasks, createTask, deleteTask } from "../api/api";
 
@@ -11,10 +12,15 @@ type Task = {
 export default function TodoList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTitle, setNewTitle] = useState("");
+  const [error, setError] = useState("");
 
   const fetchTasks = async () => {
-    const res = await getTasks();
-    setTasks(res.data);
+    try {
+      const res = await getTasks();
+      setTasks(res.data);
+    } catch (err) {
+      setError("Can not load the tasks.");
+    }
   };
 
   useEffect(() => {
@@ -23,21 +29,38 @@ export default function TodoList() {
 
   const handleCreate = async () => {
     if (!newTitle) return;
-    await createTask({ title: newTitle });
-    setNewTitle("");
-    fetchTasks();
+    try {
+      await createTask({ title: newTitle });
+      setNewTitle("");
+      fetchTasks();
+    } catch (err) {
+      setError("Can not create the task.");
+    }
   };
 
   const handleDelete = async (id: number) => {
-    await deleteTask(id);
-    fetchTasks();
+    try {
+      await deleteTask(id);
+      fetchTasks();
+    } catch (err) {
+      setError("Can not delete the task.");
+    }
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h2>Todo List</h2>
-      <input value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="New task" />
-      <button onClick={handleCreate}>Add</button>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <div>
+        <input
+          value={newTitle}
+          onChange={e => setNewTitle(e.target.value)}
+          placeholder="New task"
+        />
+        <button onClick={handleCreate}>Add</button>
+      </div>
+
       <ul>
         {tasks.map(task => (
           <li key={task.id}>

@@ -10,6 +10,7 @@ export default function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -32,6 +33,7 @@ export default function Login() {
                 <button type="submit" className="login__form--btn">Login</button>
             </form>
             {error && <p className="login__error">{error}</p>}
+            <a href="/register" className="login__create">Not have an account?</a>
         </div>
     )
 }

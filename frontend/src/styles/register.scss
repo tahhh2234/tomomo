@@ -58,10 +58,23 @@
       }
     }
   }
-  
+
   &__error {
     margin-top: 10px;
     color: red;
     font-size: 0.9rem;
+  }
+
+  &__already {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: $color-04;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    animation: slideUp 0.5s ease forwards;
+
+    &:hover {
+      color: $color-02;
+    }
   }
 }
